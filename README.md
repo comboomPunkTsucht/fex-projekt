@@ -1,2 +1,2 @@
-# sex-projekt-
+# sex-projekt
 A nice project 
