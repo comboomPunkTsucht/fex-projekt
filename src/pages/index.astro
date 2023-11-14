@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,34 +13,41 @@
             background-color: #000;
             color: #fff;
         }
+
         h1 {
             font-size: 36px;
             margin-bottom: 20px;
         }
+
         .gallery {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
             gap: 20px;
             margin: 20px;
         }
+
         .gallery img {
             max-width: 100%;
             height: auto;
             border: 2px solid #fff;
         }
+
         .search-container {
             margin-bottom: 20px;
         }
+
         input[type="text"] {
             padding: 10px;
             font-size: 16px;
         }
+
         button {
             padding: 10px 20px;
             font-size: 16px;
         }
     </style>
 </head>
+
 <body>
     <h1>Astro Bildergalerie <i class="nf nf-astro"></i></h1>
     <div class="search-container">
@@ -47,52 +55,6 @@
         <button onclick="searchImages()"><i class="nf nf-fa-search"></i> Suchen</button>
     </div>
     <div class="gallery" id="imageGallery"></div>
-<script>
-const express = require('express');
-const mysql = require('mysql');
-
-const app = express();
-const port = process.env.PORT || 3000;
-
-const db = mysql.createConnection({
-    host: 'sql113.infinityfree.com',
-    user: 'if0_35392934',
-    password: 'gJg8nkusCqbSGU',
-    database: 'if0_35392934_db'
-});
-
-db.connect((err) => {
-    if (err) {
-        console.error('Error connecting to database: ' + err.stack);
-        return;
-    }
-    console.log('Connected to database as ID ' + db.threadId);
-});
-
-app.get('/api/getImagesByTag', (req, res) => {
-    const tag = req.query.tag.toLowerCase();
-    const query = `
-        SELECT bilder.*
-        FROM bilder
-        JOIN tags ON bilder.tag_id = tags.tag_id
-        WHERE LOWER(tags.tag_name) = ?
-    `;
-
-    db.query(query, [tag], (error, results) => {
-        if (error) {
-            console.error(error);
-            res.status(500).json({ error: 'Internal Server Error' });
-            return;
-        }
-        res.json(results);
-    });
-});
-
-app.listen(port, () => {
-    console.log(`Server is running on http://localhost:${port}`);
-});
-</script>
-
     <script>
         async function fetchImagesByTag(tag) {
             const response = await fetch(`http://localhost:3000/api/getImagesByTag?tag=${tag}`);
@@ -116,4 +78,5 @@ app.listen(port, () => {
         }
     </script>
 </body>
+
 </html>
